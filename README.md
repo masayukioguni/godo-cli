@@ -4,9 +4,9 @@ TODO: Write a project description
 
 ## References
 
-## Installation
+  ## Installation
 ```bash
-$ go get github.com/masayukioguni/xxxx
+    $ go get github.com/masayukioguni/godo-cli
 ```
 
 ## Installation

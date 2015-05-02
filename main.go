@@ -1,24 +1,58 @@
 package main
 
 import (
-	"log"
-	"os"
-
+	"code.google.com/p/goauth2/oauth"
+	"github.com/digitalocean/godo"
+	"github.com/masayukioguni/godo-cli/command"
 	"github.com/mitchellh/cli"
+	//"log"
+	"os"
 )
 
+var GitCommit string
+
+const ApplicationName = "godo-cli"
+const Version = "0.0.1"
+const VersionPrerelease = ""
+
+func getClinet(accessToken string) *godo.Client {
+
+	t := &oauth.Transport{
+		Token: &oauth.Token{AccessToken: accessToken},
+	}
+	return godo.NewClient(t.Client())
+
+}
+
 func main() {
+
+	ui := &cli.BasicUi{Writer: os.Stdout}
+	godoCli := getClinet(os.Getenv("DIGITALOCEAN_API_TOKEN"))
+
 	c := cli.NewCLI("app", "1.0.0")
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
-		"foo": fooCommandFactory,
-		"bar": barCommandFactory,
+		"version": func() (cli.Command, error) {
+			return &command.VersionCommand{
+				Ui:      ui,
+				AppName: ApplicationName,
+				Version: Version,
+			}, nil
+		},
+		"size": func() (cli.Command, error) {
+			return &command.SizeCommand{
+				Ui:  ui,
+				Cli: godoCli,
+			}, nil
+		},
+		//"bar": barCommandFactory,
 	}
 
-	exitStatus, err := c.Run()
-	if err != nil {
-		log.Println(err)
-	}
-
+	exitStatus, _ := c.Run()
+	/*
+		if err != nil {
+			log.Println(exitStatus, err, "ssss")
+		}
+	*/
 	os.Exit(exitStatus)
 }
