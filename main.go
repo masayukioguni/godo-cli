@@ -69,6 +69,12 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"account": func() (cli.Command, error) {
+			return &command.AccountCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 		//"bar": barCommandFactory,
 	}
 
