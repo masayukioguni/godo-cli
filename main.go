@@ -63,6 +63,12 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"keys": func() (cli.Command, error) {
+			return &command.KeysCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 		//"bar": barCommandFactory,
 	}
 
