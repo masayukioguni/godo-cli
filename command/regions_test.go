@@ -7,7 +7,7 @@ import (
 
 func TestCommond_RegionsSynopsis(t *testing.T) {
 	command := &RegionsCommand{
-		Cli: nil,
+		Client: nil,
 	}
 
 	wantSynopsis := "Show regions"

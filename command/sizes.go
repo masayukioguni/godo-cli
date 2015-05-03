@@ -8,8 +8,8 @@ import (
 )
 
 type SizesCommand struct {
-	Ui  cli.Ui
-	Cli *godo.Client
+	Ui     cli.Ui
+	Client *godo.Client
 }
 
 func (c *SizesCommand) Help() string {
@@ -23,7 +23,7 @@ Options:
 
 func (c *SizesCommand) Run(args []string) int {
 	opt := &godo.ListOptions{}
-	sizes, _, err := c.Cli.Sizes.List(opt)
+	sizes, _, err := c.Client.Sizes.List(opt)
 
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))

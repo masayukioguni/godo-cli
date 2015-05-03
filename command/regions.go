@@ -8,8 +8,8 @@ import (
 )
 
 type RegionsCommand struct {
-	Ui  cli.Ui
-	Cli *godo.Client
+	Ui     cli.Ui
+	Client *godo.Client
 }
 
 func (c *RegionsCommand) Help() string {
@@ -23,7 +23,7 @@ Options:
 
 func (c *RegionsCommand) Run(args []string) int {
 	opt := &godo.ListOptions{}
-	regions, _, err := c.Cli.Regions.List(opt)
+	regions, _, err := c.Client.Regions.List(opt)
 
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))

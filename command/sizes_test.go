@@ -7,7 +7,7 @@ import (
 
 func TestCommond_SizesSynopsis(t *testing.T) {
 	command := &SizesCommand{
-		Cli: nil,
+		Client: nil,
 	}
 
 	wantSynopsis := "Show available droplet sizes"

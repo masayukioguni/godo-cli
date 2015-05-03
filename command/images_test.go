@@ -7,7 +7,7 @@ import (
 
 func TestCommond_ImagesSynopsis(t *testing.T) {
 	command := &ImagesCommand{
-		Cli: nil,
+		Client: nil,
 	}
 
 	wantSynopsis := "Retrieve a list of your images"

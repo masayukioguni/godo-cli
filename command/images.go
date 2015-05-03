@@ -9,8 +9,8 @@ import (
 )
 
 type ImagesCommand struct {
-	Ui  cli.Ui
-	Cli *godo.Client
+	Ui     cli.Ui
+	Client *godo.Client
 }
 
 func (c *ImagesCommand) Help() string {
@@ -46,13 +46,13 @@ func (c *ImagesCommand) Run(args []string) int {
 
 	switch typeFlag {
 	case "distro":
-		images, _, err = c.Cli.Images.ListDistribution(opt)
+		images, _, err = c.Client.Images.ListDistribution(opt)
 	case "app":
-		images, _, err = c.Cli.Images.ListApplication(opt)
+		images, _, err = c.Client.Images.ListApplication(opt)
 	case "user":
-		images, _, err = c.Cli.Images.ListUser(opt)
+		images, _, err = c.Client.Images.ListUser(opt)
 	default:
-		images, _, err = c.Cli.Images.List(opt)
+		images, _, err = c.Client.Images.List(opt)
 	}
 
 	if err != nil {
