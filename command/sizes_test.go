@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestCommond_SizeSynopsis(t *testing.T) {
-	command := &SizeCommand{
+func TestCommond_SizesSynopsis(t *testing.T) {
+	command := &SizesCommand{
 		Cli: nil,
 	}
 

@@ -39,8 +39,14 @@ func main() {
 				Version: Version,
 			}, nil
 		},
-		"size": func() (cli.Command, error) {
-			return &command.SizeCommand{
+		"sizes": func() (cli.Command, error) {
+			return &command.SizesCommand{
+				Ui:  ui,
+				Cli: godoCli,
+			}, nil
+		},
+		"regions": func() (cli.Command, error) {
+			return &command.RegionsCommand{
 				Ui:  ui,
 				Cli: godoCli,
 			}, nil

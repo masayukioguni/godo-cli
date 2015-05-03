@@ -7,12 +7,12 @@ import (
 	"strings"
 )
 
-type SizeCommand struct {
+type SizesCommand struct {
 	Ui  cli.Ui
 	Cli *godo.Client
 }
 
-func (c *SizeCommand) Help() string {
+func (c *SizesCommand) Help() string {
 	helpText := `
 Usage: godo-cli size [options]
 Options:
@@ -21,7 +21,7 @@ Options:
 	return strings.TrimSpace(helpText)
 }
 
-func (c *SizeCommand) Run(args []string) int {
+func (c *SizesCommand) Run(args []string) int {
 	opt := &godo.ListOptions{}
 	sizes, _, err := c.Cli.Sizes.List(opt)
 
@@ -38,6 +38,6 @@ func (c *SizeCommand) Run(args []string) int {
 	return 0
 }
 
-func (c *SizeCommand) Synopsis() string {
+func (c *SizesCommand) Synopsis() string {
 	return fmt.Sprintf("Show available droplet sizes")
 }
