@@ -41,20 +41,26 @@ func main() {
 		},
 		"sizes": func() (cli.Command, error) {
 			return &command.SizesCommand{
-				Ui:  ui,
-				Cli: godoCli,
+				Ui:     ui,
+				Client: godoCli,
 			}, nil
 		},
 		"regions": func() (cli.Command, error) {
 			return &command.RegionsCommand{
-				Ui:  ui,
-				Cli: godoCli,
+				Ui:     ui,
+				Client: godoCli,
 			}, nil
 		},
 		"images": func() (cli.Command, error) {
 			return &command.ImagesCommand{
-				Ui:  ui,
-				Cli: godoCli,
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
+		"droplets": func() (cli.Command, error) {
+			return &command.DropletsCommand{
+				Ui:     ui,
+				Client: godoCli,
 			}, nil
 		},
 		//"bar": barCommandFactory,

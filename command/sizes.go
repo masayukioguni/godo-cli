@@ -14,7 +14,7 @@ type SizesCommand struct {
 
 func (c *SizesCommand) Help() string {
 	helpText := `
-Usage: godo-cli size [options]
+Usage: godo-cli sizes [options]
 Options:
   Todo
 `
