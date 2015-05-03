@@ -51,6 +51,12 @@ func main() {
 				Cli: godoCli,
 			}, nil
 		},
+		"images": func() (cli.Command, error) {
+			return &command.ImagesCommand{
+				Ui:  ui,
+				Cli: godoCli,
+			}, nil
+		},
 		//"bar": barCommandFactory,
 	}
 
