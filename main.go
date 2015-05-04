@@ -75,6 +75,12 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"create": func() (cli.Command, error) {
+			return &command.CreateCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 		//"bar": barCommandFactory,
 	}
 

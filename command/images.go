@@ -61,8 +61,8 @@ func (c *ImagesCommand) Run(args []string) int {
 	}
 
 	for _, image := range images {
-		c.Ui.Output(fmt.Sprintf("%s (id: %d, distro: %s)",
-			image.Name, image.ID, image.Distribution))
+		c.Ui.Output(fmt.Sprintf("%s (id: %d, distro: %s) %v",
+			image.Name, image.ID, image.Distribution, image.Slug))
 	}
 
 	return 0
