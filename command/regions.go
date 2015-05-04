@@ -38,5 +38,5 @@ func (c *RegionsCommand) Run(args []string) int {
 }
 
 func (c *RegionsCommand) Synopsis() string {
-	return fmt.Sprintf("Show regions")
+	return fmt.Sprintf("Show available droplet regions")
 }
