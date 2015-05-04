@@ -10,7 +10,7 @@ func TestCommond_RegionsSynopsis(t *testing.T) {
 		Client: nil,
 	}
 
-	wantSynopsis := "Show regions"
+	wantSynopsis := "Show available droplet regions"
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
 		t.Errorf("RegionsCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}

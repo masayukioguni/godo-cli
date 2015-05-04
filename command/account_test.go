@@ -10,7 +10,7 @@ func TestCommond_AccountSynopsis(t *testing.T) {
 		Client: nil,
 	}
 
-	wantSynopsis := "Show available SSH keys"
+	wantSynopsis := "Show a account information."
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
 		t.Errorf("AccountCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}

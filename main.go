@@ -2,10 +2,10 @@ package main
 
 import (
 	"code.google.com/p/goauth2/oauth"
+	"fmt"
 	"github.com/digitalocean/godo"
 	"github.com/masayukioguni/godo-cli/command"
 	"github.com/mitchellh/cli"
-	//"log"
 	"os"
 )
 
@@ -97,7 +97,7 @@ func main() {
 
 	exitStatus, err := c.Run()
 	if err != nil {
-		log.Println(exitStatus, err)
+		fmt.Println(exitStatus, err)
 	}
 	os.Exit(exitStatus)
 }

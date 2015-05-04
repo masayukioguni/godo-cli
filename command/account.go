@@ -14,7 +14,7 @@ type AccountCommand struct {
 
 func (c *AccountCommand) Help() string {
 	helpText := `
-Usage: godo-cli keys [options]
+Usage: godo-cli account [options]
 Options:
   Todo
 `
@@ -37,5 +37,5 @@ func (c *AccountCommand) Run(args []string) int {
 }
 
 func (c *AccountCommand) Synopsis() string {
-	return fmt.Sprintf("Show available SSH keys")
+	return fmt.Sprintf("Show a account information.")
 }
