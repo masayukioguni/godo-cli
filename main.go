@@ -81,6 +81,12 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"delete": func() (cli.Command, error) {
+			return &command.DeleteCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 		//"bar": barCommandFactory,
 	}
 

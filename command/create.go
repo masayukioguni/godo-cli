@@ -17,17 +17,16 @@ type CreateCommand struct {
 func (c *CreateCommand) Help() string {
 	helpText := `
   Usage: godo-cli create [options] 
-  Create command that are provided in the digitalocean.
 
 Options:
   -name=string The name of the droplet (required)
   -size=string The size of the droplet (ex: 512mb)
   -region=string The region of the droplet (ex: nyc1)
   -image=string The image of the droplet (ex: 9801950)
-  -keys=int  The ssh key id of the droplet (ex: )
+  -keys=int  The ssh key id of the droplet (ex: ssh key id)
 
   :ex 
-  godo-cli create -name=godo-test -size=512mb -region=nyc1 -image=9801950 -keys=
+  godo-cli create -name=godo-test -size=512mb -region=nyc1 -image=9801950 -keys=xxxxx
 `
 	return strings.TrimSpace(helpText)
 }

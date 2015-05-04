@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-func TestCommond_ImagesSynopsis(t *testing.T) {
-	command := &ImagesCommand{
+func TestCommond_CreateSynopsis(t *testing.T) {
+	command := &CreateCommand{
 		Client: nil,
 	}
 
-	wantSynopsis := "Retrieve a list of your images"
+	wantSynopsis := "Create a droplet."
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
-		t.Errorf("ImagesCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
+		t.Errorf("CreateCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}
 
 }
