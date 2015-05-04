@@ -81,20 +81,23 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"info": func() (cli.Command, error) {
+			return &command.InfoCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 		"delete": func() (cli.Command, error) {
 			return &command.DeleteCommand{
 				Ui:     ui,
 				Client: godoCli,
 			}, nil
 		},
-		//"bar": barCommandFactory,
 	}
 
-	exitStatus, _ := c.Run()
-	/*
-		if err != nil {
-			log.Println(exitStatus, err, "ssss")
-		}
-	*/
+	exitStatus, err := c.Run()
+	if err != nil {
+		log.Println(exitStatus, err)
+	}
 	os.Exit(exitStatus)
 }
