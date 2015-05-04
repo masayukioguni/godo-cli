@@ -15,26 +15,46 @@ type ImagesCommand struct {
 
 func (c *ImagesCommand) Help() string {
 	helpText := `
-  Usage: godo-cli images [options] 
-  
-  Images command that are provided in the digitalocean.
+  Usage: godo-cli images [subcommand] [options] 
 
-Options:
-  -list=string List distribution images
-  :ex 
-    -list=distro List distribution images
-    -list=app    List application images
-    -list=user   List user images
+    Images command that are provided in the digitalocean.
+
+Subcommand:
+  list
+  update
+  delete
+
+List Options:
+  -type=string List type
+
+Delete Options:
+  (required) -id=int image id
+
+Update Options:
+  (required) -id=int image id
+  (required) -name=string new name
+
+:ex
+  *List distribution images
+    godo-cli images list -type=distro
+  *List application images
+    godo-cli images list -type=app
+  *List user images
+    godo-cli images list -type=user
+  *update an image name
+    godo-cli images update -id=image_id -name=new-name
+  *Delete an image
+    godo-cli images delete -id=image_id
 
 `
 	return strings.TrimSpace(helpText)
 }
 
-func (c *ImagesCommand) Run(args []string) int {
+func (c *ImagesCommand) List(args []string) int {
 
 	var typeFlag string
 	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
-	cmdFlags.StringVar(&typeFlag, "list", "", "specify the type of list. distro/app/user")
+	cmdFlags.StringVar(&typeFlag, "type", "", "specify the type of list. distro/app/user")
 
 	if err := cmdFlags.Parse(args); err != nil {
 		return 1
@@ -64,8 +84,99 @@ func (c *ImagesCommand) Run(args []string) int {
 		c.Ui.Output(fmt.Sprintf("%s (id: %d, distro: %s) %v",
 			image.Name, image.ID, image.Distribution, image.Slug))
 	}
+	return 0
+}
+
+func (c *ImagesCommand) Delete(args []string) int {
+
+	var imageID int
+
+	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
+	cmdFlags.IntVar(&imageID, "id", -1, "")
+
+	if err := cmdFlags.Parse(args); err != nil {
+		return 1
+	}
+
+	if imageID == -1 {
+		c.Ui.Error(fmt.Sprintf("required image id."))
+		return -1
+	}
+
+	_, err := c.Client.Images.Delete(imageID)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
+		return -1
+	}
 
 	return 0
+}
+
+func (c *ImagesCommand) Update(args []string) int {
+
+	var imageID int
+	var name string
+
+	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
+	cmdFlags.IntVar(&imageID, "id", -1, "")
+
+	cmdFlags.StringVar(&name, "name", "", "")
+
+	if err := cmdFlags.Parse(args); err != nil {
+		return 1
+	}
+
+	if name == "" {
+		c.Ui.Error(fmt.Sprintf("required name."))
+		return -1
+	}
+
+	if imageID == -1 {
+		c.Ui.Error(fmt.Sprintf("required image id."))
+		return -1
+	}
+
+	updateRequest := godo.ImageUpdateRequest{
+		Name: name,
+	}
+
+	image, _, err := c.Client.Images.Update(imageID, &updateRequest)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
+		return -1
+	}
+
+	c.Ui.Output(fmt.Sprintf("%s (id: %d, distro: %s) %v",
+		image.Name, image.ID, image.Distribution, image.Slug))
+
+	return 0
+}
+
+func (c *ImagesCommand) Run(args []string) int {
+
+	if len(args) < 1 {
+		c.Ui.Output(c.Help())
+		return -1
+	}
+
+	subcommand := args[0]
+	newArgs := args[1:]
+	var res int
+
+	switch subcommand {
+	case "list":
+		res = c.List(newArgs)
+	case "update":
+		res = c.Update(newArgs)
+	case "delete":
+		res = c.Delete(newArgs)
+	default:
+
+	}
+
+	return res
 }
 
 func (c *ImagesCommand) Synopsis() string {

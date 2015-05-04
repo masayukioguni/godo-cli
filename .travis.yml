@@ -1,7 +1,5 @@
 language: go
 go:
-  - 1.2
-  - 1.3
   - 1.4
   - release
 
@@ -10,10 +8,9 @@ before_install:
 
 matrix:
   allow_failures:
-    - go: 1.2
-    - go: 1.3
     - go: 1.4
     - go: release
 
 script:
- - go test -v ./...
+ - make deps
+ - make test
