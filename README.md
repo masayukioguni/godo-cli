@@ -3,7 +3,7 @@
 godo-cli was heavily inspired by the tugboat.
 
 [![Build Status](https://drone.io/github.com/masayukioguni/godo-cli/status.png)](https://drone.io/github.com/masayukioguni/godo-cli/latest)
-[![Build Status](https://travis-ci.org/masayukioguni/go-godo-cli.svg?branch=master)](https://travis-ci.org/masayukioguni/godo-cli)
+[![Build Status](https://travis-ci.org/masayukioguni/godo-cli.svg?branch=master)](https://travis-ci.org/masayukioguni/godo-cli)
 
 DigitalOcean API v2 command line tool for interacting with your [DigitalOcean](https://www.digitalocean.com/) droplets.
 
