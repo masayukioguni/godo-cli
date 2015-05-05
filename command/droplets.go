@@ -22,22 +22,40 @@ Options:
 }
 
 func (c *DropletsCommand) Run(args []string) int {
+	list := []godo.Droplet{}
 	opt := &godo.ListOptions{}
-	droplets, _, err := c.Client.Droplets.List(opt)
 
-	if err != nil {
-		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
-		return -1
+	for {
+		droplets, resp, err := c.Client.Droplets.List(opt)
+
+		if err != nil {
+			c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
+			return -1
+		}
+
+		for _, i := range droplets {
+			list = append(list, i)
+		}
+
+		if resp.Links.IsLastPage() {
+			break
+		}
+
+		page, err := resp.Links.CurrentPage()
+		if err != nil {
+			c.Ui.Error(fmt.Sprintf("Failed to CurrentPage %v", err))
+			return -1
+		}
+
+		opt.Page = page + 1
 	}
-
-	for _, droplet := range droplets {
+	for _, droplet := range list {
 		fmt.Printf("%s (status: %s, region :%s, id: %d)\n",
 			droplet.Name, droplet.Status, droplet.Region.Slug, droplet.ID)
 	}
-
 	return 0
 }
 
 func (c *DropletsCommand) Synopsis() string {
-	return fmt.Sprintf("Show available droplet sizes")
+	return fmt.Sprintf("Retrieve a list of your droplets.")
 }

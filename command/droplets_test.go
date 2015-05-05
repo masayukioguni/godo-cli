@@ -10,7 +10,7 @@ func TestCommond_DropletsSynopsis(t *testing.T) {
 		Client: nil,
 	}
 
-	wantSynopsis := "Show available droplet sizes"
+	wantSynopsis := "Retrieve a list of your droplets."
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
 		t.Errorf("DropletsCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}
