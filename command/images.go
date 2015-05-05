@@ -53,6 +53,11 @@ Update Options:
 	return strings.TrimSpace(helpText)
 }
 
+func (c *ImagesCommand) getList(listFunc func(*godo.ListOptions) ([]godo.Image, *godo.Response, error)) ([]godo.Image, *godo.Response, error) {
+	opt := &godo.ListOptions{}
+	return listFunc(opt)
+}
+
 func (c *ImagesCommand) List(args []string) int {
 
 	var typeFlag string
@@ -69,11 +74,11 @@ func (c *ImagesCommand) List(args []string) int {
 
 	switch typeFlag {
 	case "distro":
-		images, _, err = c.Client.Images.ListDistribution(opt)
+		images, _, err = c.getList(c.Client.Images.ListDistribution)
 	case "app":
-		images, _, err = c.Client.Images.ListApplication(opt)
+		images, _, err = c.getList(c.Client.Images.ListApplication)
 	case "user":
-		images, _, err = c.Client.Images.ListUser(opt)
+		images, _, err = c.getList(c.Client.Images.ListUser)
 	default:
 		images, _, err = c.Client.Images.List(opt)
 	}

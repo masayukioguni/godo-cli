@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/digitalocean/godo"
 	"github.com/masayukioguni/godo-cli/command"
+	"github.com/masayukioguni/godo-cli/config"
+
 	"github.com/mitchellh/cli"
 	"os"
 )
@@ -25,13 +27,21 @@ func getClinet(accessToken string) *godo.Client {
 }
 
 func main() {
-
 	ui := &cli.BasicUi{Writer: os.Stdout}
-	godoCli := getClinet(os.Getenv("DIGITALOCEAN_API_TOKEN"))
+
+	path, _ := config.GetConfigPath()
+	config, _ := config.LoadConfig(path)
+	godoCli := getClinet(config.Authentication.APIKey)
 
 	c := cli.NewCLI("app", "1.0.0")
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
+		"authorize": func() (cli.Command, error) {
+			return &command.AuthorizeCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 		"version": func() (cli.Command, error) {
 			return &command.VersionCommand{
 				Ui:      ui,
