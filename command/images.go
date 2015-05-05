@@ -21,6 +21,7 @@ func (c *ImagesCommand) Help() string {
 
 Subcommand:
   list
+  info
   update
   delete
 
@@ -41,6 +42,8 @@ Update Options:
     godo-cli images list -type=app
   *List user images
     godo-cli images list -type=user
+  *Infomation an image
+    godo-cli images info -id=image_id
   *update an image name
     godo-cli images update -id=image_id -name=new-name
   *Delete an image
@@ -154,6 +157,34 @@ func (c *ImagesCommand) Update(args []string) int {
 	return 0
 }
 
+func (c *ImagesCommand) Info(args []string) int {
+
+	var imageID int
+
+	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
+	cmdFlags.IntVar(&imageID, "id", -1, "")
+
+	if err := cmdFlags.Parse(args); err != nil {
+		return 1
+	}
+
+	if imageID == -1 {
+		c.Ui.Error(fmt.Sprintf("required image id."))
+		return -1
+	}
+
+	image, _, err := c.Client.Images.GetByID(imageID)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
+		return -1
+	}
+
+	c.Ui.Output(fmt.Sprintf("%s (id: %d, distro: %s) %v",
+		image.Name, image.ID, image.Distribution, image.Slug))
+
+	return 0
+}
 func (c *ImagesCommand) Run(args []string) int {
 
 	if len(args) < 1 {
@@ -168,6 +199,8 @@ func (c *ImagesCommand) Run(args []string) int {
 	switch subcommand {
 	case "list":
 		res = c.List(newArgs)
+	case "info":
+		res = c.Info(newArgs)
 	case "update":
 		res = c.Update(newArgs)
 	case "delete":
