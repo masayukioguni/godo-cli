@@ -1,0 +1,4 @@
+authentication:
+  apikey: APIKey
+defaults:
+  region: nyc3
