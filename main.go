@@ -103,6 +103,13 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"config": func() (cli.Command, error) {
+			return &command.ConfigCommand{
+				Ui:     ui,
+				Config: config,
+				Client: godoCli,
+			}, nil
+		},
 	}
 
 	exitStatus, err := c.Run()
