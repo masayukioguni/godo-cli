@@ -5,13 +5,16 @@ import (
 	"flag"
 	"fmt"
 	"github.com/digitalocean/godo"
+	"github.com/masayukioguni/godo-cli/config"
 	"github.com/mitchellh/cli"
+	"strconv"
 	"strings"
 )
 
 type CreateCommand struct {
 	Ui     cli.Ui
 	Client *godo.Client
+	Config *config.Config
 }
 
 func (c *CreateCommand) Help() string {
@@ -22,11 +25,11 @@ Options:
   -name=string The name of the droplet (required)
   -size=string The size of the droplet (ex: 512mb)
   -region=string The region of the droplet (ex: nyc1)
-  -image=string The image of the droplet (ex: 9801950)
-  -keys=int  The ssh key id of the droplet (ex: ssh key id)
+  -image=int The image id of the droplet (ex: 9801950)
+  -key=int  The ssh key id of the droplet (ex: ssh key id)
 
   :ex 
-  godo-cli create -name=godo-test -size=512mb -region=nyc1 -image=9801950 -keys=xxxxx
+  godo-cli create -name=godo-test -size=512mb -region=nyc1 -image=9801950 -key=xxxxx
 `
 	return strings.TrimSpace(helpText)
 }
@@ -36,7 +39,7 @@ type CreateFlags struct {
 	Image  string
 	Size   string
 	Region string
-	Keys   int
+	Key    string
 }
 
 func (c *CreateCommand) parse(args []string) (*CreateFlags, error) {
@@ -45,10 +48,10 @@ func (c *CreateCommand) parse(args []string) (*CreateFlags, error) {
 	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
 
 	cmdFlags.StringVar(&flags.Name, "name", "", "")
-	cmdFlags.StringVar(&flags.Size, "size", "", "")
-	cmdFlags.StringVar(&flags.Image, "image", "", "")
-	cmdFlags.StringVar(&flags.Region, "region", "", "")
-	cmdFlags.IntVar(&flags.Keys, "keys", 0, "")
+	cmdFlags.StringVar(&flags.Size, "size", c.Config.Defaults.Size, "")
+	cmdFlags.StringVar(&flags.Image, "image", c.Config.Defaults.Image, "")
+	cmdFlags.StringVar(&flags.Region, "region", c.Config.Defaults.Region, "")
+	cmdFlags.StringVar(&flags.Key, "key", c.Config.Defaults.Key, "")
 
 	err := cmdFlags.Parse(args)
 
@@ -60,22 +63,6 @@ func (c *CreateCommand) parse(args []string) (*CreateFlags, error) {
 		return nil, errors.New("invalid name")
 	}
 
-	if flags.Size == "" {
-		flags.Size = "512mb"
-	}
-
-	if flags.Image == "" {
-		flags.Image = "9801950"
-	}
-
-	if flags.Region == "" {
-		flags.Region = "nyc1"
-	}
-
-	if flags.Keys == 0 {
-		flags.Keys = 0
-	}
-
 	return flags, nil
 }
 
@@ -85,7 +72,14 @@ func (c *CreateCommand) Run(args []string) int {
 
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to parse %v", err))
-		return 1
+		return -1
+	}
+
+	key, err := strconv.Atoi(flags.Key)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to strconv.Atoi %v", err))
+		return -1
 	}
 
 	createRequest := &godo.DropletCreateRequest{
@@ -93,7 +87,7 @@ func (c *CreateCommand) Run(args []string) int {
 		Region: flags.Region,
 		Size:   flags.Size,
 		SSHKeys: []godo.DropletCreateSSHKey{
-			{ID: flags.Keys},
+			{ID: key},
 		},
 		Image: godo.DropletCreateImage{
 			Slug: flags.Image,

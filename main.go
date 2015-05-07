@@ -89,6 +89,7 @@ func main() {
 			return &command.CreateCommand{
 				Ui:     ui,
 				Client: godoCli,
+				Config: config,
 			}, nil
 		},
 		"info": func() (cli.Command, error) {

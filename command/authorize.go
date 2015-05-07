@@ -6,9 +6,7 @@ import (
 	"github.com/digitalocean/godo"
 	"github.com/masayukioguni/godo-cli/config"
 	"github.com/mitchellh/cli"
-
 	"os"
-	"path/filepath"
 )
 
 type AuthorizeCommand struct {
@@ -37,25 +35,17 @@ func (c *AuthorizeCommand) Run(args []string) int {
 	apikey := c.ask("Entser your API Token:", "Input api ooken")
 	fmt.Println(`Defaults can be changed at any time in your ~/.godo-cli/config.yaml configuration file.`)
 
-	env := &config.Config{}
-	env.Authentication.APIKey = apikey
-	home := os.Getenv("HOME")
-	if home == "" {
-		fmt.Errorf("Error Getenv $HOME not found")
+	conf := &config.Config{}
+	conf.Authentication.APIKey = apikey
+
+	savePath, err := config.GetConfigPath()
+
+	if err != nil {
+		fmt.Errorf("Error GetConfigPath %s", err)
 		return 1
 	}
 
-	saveDirectory := filepath.Join(home, config.GetDefaultDirectory())
-	_, err := os.Stat(saveDirectory)
-	if err != nil {
-		if err = os.Mkdir(saveDirectory, 0755); err != nil {
-			fmt.Errorf("Error mkdir %s", saveDirectory)
-			return 0
-		}
-	}
-	savePath := filepath.Join(saveDirectory, config.GetDefaultConfigName())
-
-	err = config.SaveConfig(savePath, env)
+	err = config.SaveConfig(savePath, conf)
 
 	if err != nil {
 		fmt.Errorf("Error SaveConfig %s", err)

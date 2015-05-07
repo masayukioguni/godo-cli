@@ -6,9 +6,6 @@ import (
 	"github.com/digitalocean/godo"
 	"github.com/masayukioguni/godo-cli/config"
 	"github.com/mitchellh/cli"
-	"os"
-	"path/filepath"
-
 	"strings"
 )
 
@@ -67,21 +64,12 @@ func (c *ConfigCommand) Set(args []string) int {
 		c.Config.Defaults.Key = key
 	}
 
-	home := os.Getenv("HOME")
-	if home == "" {
-		fmt.Errorf("Error Getenv $HOME not found")
+	savePath, err := config.GetConfigPath()
+
+	if err != nil {
+		fmt.Errorf("Error GetConfigPath %s", err)
 		return 1
 	}
-
-	saveDirectory := filepath.Join(home, config.GetDefaultDirectory())
-	_, err = os.Stat(saveDirectory)
-	if err != nil {
-		if err = os.Mkdir(saveDirectory, 0755); err != nil {
-			fmt.Errorf("Error mkdir %s", saveDirectory)
-			return 0
-		}
-	}
-	savePath := filepath.Join(saveDirectory, config.GetDefaultConfigName())
 
 	err = config.SaveConfig(savePath, c.Config)
 
@@ -90,13 +78,14 @@ func (c *ConfigCommand) Set(args []string) int {
 		return 1
 	}
 
-	fmt.Println("Authentication with DigitalOcean was successful!")
+	fmt.Println("successful!")
 
 	return 0
 
 }
 
 func (c *ConfigCommand) Get(args []string) int {
+	c.Ui.Output(fmt.Sprintf("Defaults"))
 	c.Ui.Output(fmt.Sprintf("image: %v", c.Config.Defaults.Image))
 	c.Ui.Output(fmt.Sprintf("Size: %v", c.Config.Defaults.Size))
 	c.Ui.Output(fmt.Sprintf("Region: %v", c.Config.Defaults.Region))
@@ -111,22 +100,17 @@ func (c *ConfigCommand) Run(args []string) int {
 		return -1
 	}
 
-	subcommand := args[0]
 	newArgs := args[1:]
-	var res int
-
-	switch subcommand {
+	switch args[0] {
 	case "set":
-		res = c.Set(newArgs)
+		return c.Set(newArgs)
 	case "get":
-		res = c.Get(newArgs)
-	default:
-
+		return c.Get(newArgs)
 	}
 
-	return res
+	return -1
 }
 
 func (c *ConfigCommand) Synopsis() string {
-	return fmt.Sprintf("Show a droplet's information.")
+	return fmt.Sprintf("management of the default setting.")
 }
