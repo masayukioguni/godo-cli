@@ -197,24 +197,20 @@ func (c *ImagesCommand) Run(args []string) int {
 		return -1
 	}
 
-	subcommand := args[0]
 	newArgs := args[1:]
-	var res int
 
-	switch subcommand {
+	switch args[0] {
 	case "list":
-		res = c.List(newArgs)
+		return c.List(newArgs)
 	case "info":
-		res = c.Info(newArgs)
+		return c.Info(newArgs)
 	case "update":
-		res = c.Update(newArgs)
+		return c.Update(newArgs)
 	case "delete":
-		res = c.Delete(newArgs)
-	default:
-
+		return c.Delete(newArgs)
 	}
 
-	return res
+	return -1
 }
 
 func (c *ImagesCommand) Synopsis() string {
