@@ -101,7 +101,7 @@ func (c *CreateCommand) Run(args []string) int {
 		return -1
 	}
 
-	c.Ui.Output(fmt.Sprintf("%v ", newDroplet))
+	c.Ui.Output(fmt.Sprintf("Queueing creation of droplet '%s' ...done\n", newDroplet.Droplet.Name))
 
 	return 0
 }

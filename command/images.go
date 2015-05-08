@@ -74,10 +74,13 @@ func (c *ImagesCommand) List(args []string) int {
 
 	switch typeFlag {
 	case "distro":
+		c.Ui.Output(fmt.Sprintf("Application Images:"))
 		images, _, err = c.getList(c.Client.Images.ListDistribution)
 	case "app":
+		c.Ui.Output(fmt.Sprintf("Application Images:"))
 		images, _, err = c.getList(c.Client.Images.ListApplication)
 	case "user":
+		c.Ui.Output(fmt.Sprintf("My Images:"))
 		images, _, err = c.getList(c.Client.Images.ListUser)
 	default:
 		images, _, err = c.Client.Images.List(opt)
@@ -209,6 +212,8 @@ func (c *ImagesCommand) Run(args []string) int {
 	case "delete":
 		return c.Delete(newArgs)
 	}
+
+	c.Help()
 
 	return -1
 }

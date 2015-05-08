@@ -46,6 +46,8 @@ func (c *DeleteCommand) Run(args []string) int {
 		return -1
 	}
 
+	c.Ui.Output(fmt.Sprintf("Queuing destroy for %d ...done\n", id))
+
 	return 0
 }
 
