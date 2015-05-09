@@ -20,7 +20,7 @@ Usage: godo-cli info [options]
 Options:
   -id=int The id of the droplet (required)
 
-  :ex 
+e.g.
   godo-cli info -id=droplet id
 `
 	return strings.TrimSpace(helpText)

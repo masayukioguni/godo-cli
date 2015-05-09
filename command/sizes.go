@@ -14,9 +14,7 @@ type SizesCommand struct {
 
 func (c *SizesCommand) Help() string {
 	helpText := `
-Usage: godo-cli sizes [options]
-Options:
-  Todo
+Usage: godo-cli sizes
 `
 	return strings.TrimSpace(helpText)
 }

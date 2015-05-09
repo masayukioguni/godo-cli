@@ -28,7 +28,7 @@ Options:
   -image=int The image id of the droplet (ex: 9801950)
   -key=int  The ssh key id of the droplet (ex: ssh key id)
 
-  :ex 
+e.g.
   godo-cli create -name=godo-test -size=512mb -region=nyc1 -image=9801950 -key=xxxxx
 `
 	return strings.TrimSpace(helpText)

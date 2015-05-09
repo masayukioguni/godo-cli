@@ -14,9 +14,7 @@ type RegionsCommand struct {
 
 func (c *RegionsCommand) Help() string {
 	helpText := `
-Usage: godo-cli regisons [options]
-Options:
-  Todo
+Usage: godo-cli regisons
 `
 	return strings.TrimSpace(helpText)
 }

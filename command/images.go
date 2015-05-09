@@ -35,18 +35,18 @@ Update Options:
   (required) -id=int image id
   (required) -name=string new name
 
-:ex
-  *List distribution images
+e.g.
+  List distribution images
     godo-cli images list -type=distro
-  *List application images
+  List application images
     godo-cli images list -type=app
-  *List user images
+  List user images
     godo-cli images list -type=user
-  *Infomation an image
+  Infomation an image
     godo-cli images info -id=image_id
-  *update an image name
+  update an image name
     godo-cli images update -id=image_id -name=new-name
-  *Delete an image
+  Delete an image
     godo-cli images delete -id=image_id
 
 `

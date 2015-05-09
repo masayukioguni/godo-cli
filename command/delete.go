@@ -20,7 +20,7 @@ func (c *DeleteCommand) Help() string {
 Options:
   -id=int The id of the droplet (required)
 
-  :ex 
+e.g.
   godo-cli delete -id=droplet id
 `
 	return strings.TrimSpace(helpText)

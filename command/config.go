@@ -19,11 +19,25 @@ func (c *ConfigCommand) Help() string {
 	helpText := `
 Usage: godo-cli config [options]
 
-Options:
-  -id=int The id of the droplet (required)
+Subcommand:
+  get
+  set 
 
-  :ex 
-  godo-cli info -id=droplet id
+Options:
+  -region=string region slug ex:nyc1
+  -image=int image id
+  -size=string size slug ex:512mb
+  -key=int SSHKey id 
+
+e.g.
+  configuration
+    godo-cli config get 
+
+  set region to config
+    godo-cli config set -region=nyc3
+  
+
+
 `
 	return strings.TrimSpace(helpText)
 }
