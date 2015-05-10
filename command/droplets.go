@@ -50,8 +50,8 @@ func (c *DropletsCommand) Run(args []string) int {
 		opt.Page = page + 1
 	}
 	for _, droplet := range list {
-		fmt.Printf("%s (status: %s, region :%s, id: %d)\n",
-			droplet.Name, droplet.Status, droplet.Region.Slug, droplet.ID)
+		fmt.Printf("%s (ip: %s, status: %s, region :%s, id: %d)\n",
+			droplet.Name, GetNetworksV4IPAddress(droplet.Networks), droplet.Status, droplet.Region.Slug, droplet.ID)
 	}
 	return 0
 }
