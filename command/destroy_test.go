@@ -6,13 +6,13 @@ import (
 )
 
 func TestCommond_DeleteSynopsis(t *testing.T) {
-	command := &DeleteCommand{
+	command := &DestroyCommand{
 		Client: nil,
 	}
 
 	wantSynopsis := "Destroy a droplet."
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
-		t.Errorf("DeleteCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
+		t.Errorf("DestroyCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}
 
 }

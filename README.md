@@ -39,7 +39,7 @@ Run the configuration utility, `godo-cli authorize`. You can grab your keys
     image: 9801954
     Size: 512mb
     Region: nyc3
-    Keys: 63980
+    Keys: xxxxxx
 
 
 ## Usage
@@ -98,7 +98,7 @@ list images provided by DigitalOcean as well.
 ### List SSH Keys
 
     $ godo-cli keys
-    id:xxxxxx name:masayuki.oguni@xxxxx
+    id:xxxxxx name:masayukixxxxx@xxxxx
     ...
 
 ## Help
