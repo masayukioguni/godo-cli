@@ -10,7 +10,7 @@ func TestCommond_ConfigSynopsis(t *testing.T) {
 		Client: nil,
 	}
 
-	wantSynopsis := "management of the default setting."
+	wantSynopsis := "configuration of the default setting."
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
 		t.Errorf("ConfigCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}

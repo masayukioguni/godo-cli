@@ -103,7 +103,7 @@ func (c *ConfigCommand) Get(args []string) int {
 	c.Ui.Output(fmt.Sprintf("image: %v", c.Config.Defaults.Image))
 	c.Ui.Output(fmt.Sprintf("Size: %v", c.Config.Defaults.Size))
 	c.Ui.Output(fmt.Sprintf("Region: %v", c.Config.Defaults.Region))
-	c.Ui.Output(fmt.Sprintf("Keys: %v", c.Config.Defaults.Key))
+	c.Ui.Output(fmt.Sprintf("Key: %v", c.Config.Defaults.Key))
 	return 0
 }
 
@@ -126,5 +126,5 @@ func (c *ConfigCommand) Run(args []string) int {
 }
 
 func (c *ConfigCommand) Synopsis() string {
-	return fmt.Sprintf("management of the default setting.")
+	return fmt.Sprintf("configuration of the default setting.")
 }
