@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type DeleteCommand struct {
+type DestroyCommand struct {
 	Ui     cli.Ui
 	Client *godo.Client
 }
 
-func (c *DeleteCommand) Help() string {
+func (c *DestroyCommand) Help() string {
 	helpText := `
 	Usage: godo-cli delete [options] 
   
@@ -26,7 +26,7 @@ e.g.
 	return strings.TrimSpace(helpText)
 }
 
-func (c *DeleteCommand) Run(args []string) int {
+func (c *DestroyCommand) Run(args []string) int {
 	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
 
 	var id = 0
@@ -51,6 +51,6 @@ func (c *DeleteCommand) Run(args []string) int {
 	return 0
 }
 
-func (c *DeleteCommand) Synopsis() string {
+func (c *DestroyCommand) Synopsis() string {
 	return fmt.Sprintf("Destroy a droplet.")
 }

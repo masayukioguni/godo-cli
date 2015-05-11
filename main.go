@@ -98,8 +98,8 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
-		"delete": func() (cli.Command, error) {
-			return &command.DeleteCommand{
+		"destroy": func() (cli.Command, error) {
+			return &command.DestroyCommand{
 				Ui:     ui,
 				Client: godoCli,
 			}, nil
