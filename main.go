@@ -111,6 +111,12 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+		"ssh": func() (cli.Command, error) {
+			return &command.SSHCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
 	}
 
 	exitStatus, err := c.Run()
