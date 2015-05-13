@@ -22,34 +22,15 @@ Options:
 }
 
 func (c *DropletsCommand) Run(args []string) int {
-	list := []godo.Droplet{}
-	opt := &godo.ListOptions{}
+	util := GodoUtil{Client: c.Client}
+	droplets, err := util.GetDroplets()
 
-	for {
-		droplets, resp, err := c.Client.Droplets.List(opt)
-
-		if err != nil {
-			c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
-			return -1
-		}
-
-		for _, i := range droplets {
-			list = append(list, i)
-		}
-
-		if resp.Links.IsLastPage() {
-			break
-		}
-
-		page, err := resp.Links.CurrentPage()
-		if err != nil {
-			c.Ui.Error(fmt.Sprintf("Failed to CurrentPage %v", err))
-			return -1
-		}
-
-		opt.Page = page + 1
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to CurrentPage %v", err))
+		return -1
 	}
-	for _, droplet := range list {
+
+	for _, droplet := range droplets {
 		fmt.Printf("%s (ip: %s, status: %s, region :%s, id: %d)\n",
 			droplet.Name, GetNetworksV4IPAddress(droplet.Networks), droplet.Status, droplet.Region.Slug, droplet.ID)
 	}

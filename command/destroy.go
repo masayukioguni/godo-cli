@@ -39,6 +39,17 @@ func (c *DestroyCommand) DestroyById(id int) error {
 	return nil
 }
 
+func (c *DestroyCommand) DestroyByName(name string) (int, error) {
+
+	util := GodoUtil{Client: c.Client}
+	droplet, err := util.GetDropletByName(name)
+
+	if err != nil {
+		return -1, err
+	}
+	return droplet.ID, c.DestroyById(droplet.ID)
+}
+
 func (c *DestroyCommand) Run(args []string) int {
 	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
 
@@ -60,7 +71,7 @@ func (c *DestroyCommand) Run(args []string) int {
 	}
 
 	if name != "" {
-
+		id, err = c.DestroyByName(name)
 	} else {
 		if id != 0 {
 			err = c.DestroyById(id)
