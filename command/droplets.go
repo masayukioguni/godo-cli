@@ -26,7 +26,7 @@ func (c *DropletsCommand) Run(args []string) int {
 	droplets, err := util.GetDroplets()
 
 	if err != nil {
-		c.Ui.Error(fmt.Sprintf("Failed to CurrentPage %v", err))
+		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
 		return -1
 	}
 

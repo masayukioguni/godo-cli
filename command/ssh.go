@@ -17,9 +17,20 @@ type SSHCommand struct {
 
 func (c *SSHCommand) Help() string {
 	helpText := `
-Usage: godo-cli account [options]
+Usage: godo-cli ssh [options]
+
 Options:
-  Todo
+  -id=int The id of the droplet
+  -name=string The name of the droplet
+
+e.g.
+  godo-cli ssh -id=droplet id
+  godo-cli ssh -name=droplet name
+
+todo:
+  -ssh_user
+  -ssh_port
+
 `
 	return strings.TrimSpace(helpText)
 }
@@ -76,7 +87,10 @@ func (c *SSHCommand) Run(args []string) int {
 		}
 	}
 
-	fmt.Printf("%v\n", droplet)
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
+		return -1
+	}
 
 	s := fmt.Sprintf("root@%s", droplet.Networks.V4[0].IPAddress)
 
@@ -90,5 +104,5 @@ func (c *SSHCommand) Run(args []string) int {
 }
 
 func (c *SSHCommand) Synopsis() string {
-	return fmt.Sprintf("Show a account information.")
+	return fmt.Sprintf("SSH into a droplet.")
 }
