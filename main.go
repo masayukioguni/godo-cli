@@ -15,7 +15,6 @@ var GitCommit string
 
 const ApplicationName = "godo-cli"
 const Version = "0.0.1"
-const VersionPrerelease = ""
 
 func getClinet(accessToken string) *godo.Client {
 
@@ -33,7 +32,7 @@ func main() {
 	config, _ := config.LoadConfig(path)
 	godoCli := getClinet(config.Authentication.APIKey)
 
-	c := cli.NewCLI("app", "1.0.0")
+	c := cli.NewCLI(ApplicationName, Version)
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		"authorize": func() (cli.Command, error) {
