@@ -17,7 +17,7 @@ type ConfigCommand struct {
 
 func (c *ConfigCommand) Help() string {
 	helpText := `
-Usage: godo-cli config [options]
+Usage: godo-cli config subcommand [options]
 
 Subcommand:
   get
@@ -35,9 +35,6 @@ e.g.
 
   set region to config
     godo-cli config set -region=nyc3
-  
-
-
 `
 	return strings.TrimSpace(helpText)
 }
@@ -111,7 +108,7 @@ func (c *ConfigCommand) Run(args []string) int {
 
 	if len(args) < 1 {
 		c.Ui.Output(c.Help())
-		return -1
+		return 0
 	}
 
 	newArgs := args[1:]
