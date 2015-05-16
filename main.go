@@ -28,8 +28,24 @@ func getClinet(accessToken string) *godo.Client {
 func main() {
 	ui := &cli.BasicUi{Writer: os.Stdout}
 
-	path, _ := config.GetConfigPath()
-	config, _ := config.LoadConfig(path)
+	configPath, err := config.GetConfigPath()
+	if err != nil {
+		fmt.Errorf("Error GetConfigPath %s", err)
+		os.Exit(1)
+	}
+
+	_, err = os.Stat(configPath)
+	if err != nil {
+		configDummy := &config.Config{}
+		config.SaveConfig(configPath, configDummy)
+	}
+
+	config, err := config.LoadConfig(configPath)
+	if err != nil {
+		fmt.Errorf("Error LoadConfig %s", err)
+		return
+	}
+
 	godoCli := getClinet(config.Authentication.APIKey)
 
 	c := cli.NewCLI(ApplicationName, Version)
