@@ -37,6 +37,13 @@ func main() {
 	_, err = os.Stat(configPath)
 	if err != nil {
 		configDummy := &config.Config{}
+		configDirPath, _ := config.GetConfigDirectory()
+
+		if err := os.Mkdir(configDirPath, 0766); err != nil {
+			fmt.Errorf("Error LoadConfig %s", err)
+			os.Exit(1)
+		}
+
 		config.SaveConfig(configPath, configDummy)
 	}
 

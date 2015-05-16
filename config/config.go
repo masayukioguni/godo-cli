@@ -35,6 +35,15 @@ func GetDefaultConfigName() string {
 	return defaultConfigName
 }
 
+func GetConfigDirectory() (string, error) {
+	home := os.Getenv("HOME")
+	if home == "" {
+		return "", fmt.Errorf("Error Getenv $HOME not found")
+	}
+
+	return filepath.Join(home, defaultDirectory), nil
+}
+
 func GetConfigPath() (string, error) {
 	home := os.Getenv("HOME")
 	if home == "" {
@@ -50,14 +59,14 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, fmt.Errorf("Error reading %s: %s", path, err)
 	}
 
-	config := Config{}
+	config := &Config{}
 
-	err = yaml.Unmarshal(d, &config)
+	err = yaml.Unmarshal(d, config)
 	if err != nil {
 		return nil, fmt.Errorf("Error yaml.Unmarshal %s: %s", path, err)
 	}
 
-	return &config, nil
+	return config, nil
 }
 
 func SaveConfig(path string, config *Config) error {
