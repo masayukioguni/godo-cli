@@ -65,6 +65,19 @@ func (c *CreateCommand) parse(args []string) (*CreateFlags, error) {
 
 	return flags, nil
 }
+func (c *CreateCommand) GetDropletCreateImage(text string) godo.DropletCreateImage {
+
+	if idInt, err := strconv.Atoi(text); err == nil {
+		return godo.DropletCreateImage{
+			ID: idInt,
+		}
+	}
+
+	return godo.DropletCreateImage{
+		Slug: text,
+	}
+
+}
 
 func (c *CreateCommand) Run(args []string) int {
 
@@ -82,6 +95,8 @@ func (c *CreateCommand) Run(args []string) int {
 		return -1
 	}
 
+	image := c.GetDropletCreateImage(flags.Image)
+
 	createRequest := &godo.DropletCreateRequest{
 		Name:   flags.Name,
 		Region: flags.Region,
@@ -89,9 +104,7 @@ func (c *CreateCommand) Run(args []string) int {
 		SSHKeys: []godo.DropletCreateSSHKey{
 			{ID: key},
 		},
-		Image: godo.DropletCreateImage{
-			Slug: flags.Image,
-		},
+		Image: image,
 	}
 
 	newDroplet, _, err := c.Client.Droplets.Create(createRequest)
