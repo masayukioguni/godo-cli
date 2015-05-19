@@ -61,6 +61,7 @@ func main() {
 		"authorize": func() (cli.Command, error) {
 			return &command.AuthorizeCommand{
 				Ui:     ui,
+				Config: config,
 				Client: godoCli,
 			}, nil
 		},

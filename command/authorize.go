@@ -11,6 +11,7 @@ import (
 
 type AuthorizeCommand struct {
 	Ui     cli.Ui
+	Config *config.Config
 	Client *godo.Client
 }
 
@@ -35,8 +36,7 @@ func (c *AuthorizeCommand) Run(args []string) int {
 	apikey := c.ask("Entser your API Token:", "Input api ooken")
 	fmt.Println(`Defaults can be changed at any time in your ~/.godo-cli/config.yaml configuration file.`)
 
-	conf := &config.Config{}
-	conf.Authentication.APIKey = apikey
+	c.Config.Authentication.APIKey = apikey
 
 	savePath, err := config.GetConfigPath()
 
@@ -45,7 +45,7 @@ func (c *AuthorizeCommand) Run(args []string) int {
 		return 1
 	}
 
-	err = config.SaveConfig(savePath, conf)
+	err = config.SaveConfig(savePath, c.Config)
 
 	if err != nil {
 		fmt.Errorf("Error SaveConfig %s", err)
