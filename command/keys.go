@@ -80,7 +80,39 @@ func (c *KeysCommand) Create(args []string) int {
 		return -1
 	}
 
-	c.Ui.Output(fmt.Sprintf("id:%d name:%s", key.ID, key.Name))
+	c.Ui.Output(fmt.Sprintf("Created id:%d name:%s", key.ID, key.Name))
+
+	return 0
+}
+
+func (c *KeysCommand) Delete(args []string) int {
+
+	var id = 0
+
+	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
+
+	cmdFlags.IntVar(&id, "id", 0, "")
+
+	err := cmdFlags.Parse(args)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to parse %v", err))
+		return -1
+	}
+
+	if id == 0 {
+		c.Help()
+		return -1
+	}
+
+	_, err = c.Client.Keys.DeleteByID(id)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to Delete %v", err))
+		return -1
+	}
+
+	c.Ui.Output(fmt.Sprintf("Deleted id:%d.", id))
 
 	return 0
 }
@@ -99,7 +131,7 @@ func (c *KeysCommand) Run(args []string) int {
 	case "create":
 		return c.Create(newArgs)
 	case "delete":
-		//return c.Get(newArgs)
+		return c.Delete(newArgs)
 	}
 
 	return 0
