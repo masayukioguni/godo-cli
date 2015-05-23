@@ -10,7 +10,7 @@ func TestCommond_ImagesSynopsis(t *testing.T) {
 		Client: nil,
 	}
 
-	wantSynopsis := "Retrieve a list of your images"
+	wantSynopsis := "Images command that are provided in the digitalocean."
 	if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
 		t.Errorf("ImagesCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
 	}

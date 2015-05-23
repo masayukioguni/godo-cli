@@ -20,7 +20,7 @@ func (c *AuthorizeCommand) Help() string {
 }
 
 func (c *AuthorizeCommand) ask(text string, defaultText string) string {
-	fmt.Printf(text)
+	fmt.Printf("%s", text)
 	var scanner = bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 
