@@ -121,6 +121,8 @@ func (c *ImagesCommand) Delete(args []string) int {
 		return -1
 	}
 
+	c.Ui.Output(fmt.Sprintf("Deleted Image id %d.", imageID))
+
 	return 0
 }
 
@@ -159,7 +161,7 @@ func (c *ImagesCommand) Update(args []string) int {
 		return -1
 	}
 
-	c.Ui.Output(fmt.Sprintf("%s (id: %d, distro: %s) %v",
+	c.Ui.Output(fmt.Sprintf("Updated Image %s (id: %d, distro: %s) %v",
 		image.Name, image.ID, image.Distribution, image.Slug))
 
 	return 0
@@ -219,5 +221,5 @@ func (c *ImagesCommand) Run(args []string) int {
 }
 
 func (c *ImagesCommand) Synopsis() string {
-	return fmt.Sprintf("Retrieve a list of your images")
+	return fmt.Sprintf("Images command that are provided in the digitalocean.")
 }

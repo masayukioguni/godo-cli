@@ -15,6 +15,9 @@ type AccountCommand struct {
 func (c *AccountCommand) Help() string {
 	helpText := `
 Usage: godo-cli account [options]
+
+accont command that are provided in the digitalocean.
+
 Options:
   Todo
 `
