@@ -17,9 +17,31 @@ type KeysCommand struct {
 
 func (c *KeysCommand) Help() string {
 	helpText := `
-Usage: godo-cli keys [options]
+Usage: godo-cli keys subcommand [options]
+
+Subcommand:
+  list
+  create
+  delete
+
 Options:
-  Todo
+  List Options:
+  -type=string List 
+
+Delete Options:
+  -id=int key id
+
+Update Options:
+ -name=string new name
+ -public_key=string public key path
+
+e.g.
+  List SSH Keys
+    godo-cli keys list
+  Create SSH Key
+    godo-cli keys create -name=test -public_key=~/.ssh/id_rsa.pub
+  Delete SSH Key
+    godo-cli keys delete -id=test
 `
 	return strings.TrimSpace(helpText)
 }
