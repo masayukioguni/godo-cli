@@ -116,7 +116,7 @@ For a complete overview of all of the available commands, run:
 
 Yes, please!
 
-You can create a new issue [here](https://github.com/masayukioguni/go-tugboat/issues/new). Thank you!
+You can create a new issue [here](https://github.com/masayukioguni/godo-cli/issues/new). Thank you!
 
 ## Contributing
 
