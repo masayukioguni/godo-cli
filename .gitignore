@@ -25,3 +25,8 @@ main
 build
 Godeps/Readme
 Godeps/_workspace
+
+godo-cli
+
+# other undesirables
+*.swp
