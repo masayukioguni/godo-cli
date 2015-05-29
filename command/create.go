@@ -35,11 +35,14 @@ e.g.
 }
 
 type CreateFlags struct {
-	Name   string
-	Image  string
-	Size   string
-	Region string
-	Key    string
+	Name              string
+	Image             string
+	Size              string
+	Region            string
+	Key               string
+	Backups           bool
+	IPv6              bool
+	PrivateNetworking bool
 }
 
 func (c *CreateCommand) parse(args []string) (*CreateFlags, error) {
@@ -52,6 +55,9 @@ func (c *CreateCommand) parse(args []string) (*CreateFlags, error) {
 	cmdFlags.StringVar(&flags.Image, "image", c.Config.Defaults.Image, "")
 	cmdFlags.StringVar(&flags.Region, "region", c.Config.Defaults.Region, "")
 	cmdFlags.StringVar(&flags.Key, "key", c.Config.Defaults.Key, "")
+	cmdFlags.BoolVar(&flags.Backups, "backups", c.Config.Defaults.Backups, "")
+	cmdFlags.BoolVar(&flags.Backups, "ipv6", c.Config.Defaults.IPv6, "")
+	cmdFlags.BoolVar(&flags.PrivateNetworking, "private_networking", c.Config.Defaults.PrivateNetworking, "")
 
 	err := cmdFlags.Parse(args)
 
@@ -104,7 +110,10 @@ func (c *CreateCommand) Run(args []string) int {
 		SSHKeys: []godo.DropletCreateSSHKey{
 			{ID: key},
 		},
-		Image: image,
+		Image:             image,
+		Backups:           flags.Backups,
+		IPv6:              flags.IPv6,
+		PrivateNetworking: flags.PrivateNetworking,
 	}
 
 	newDroplet, _, err := c.Client.Droplets.Create(createRequest)

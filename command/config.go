@@ -6,6 +6,7 @@ import (
 	"github.com/digitalocean/godo"
 	"github.com/masayukioguni/godo-cli/config"
 	"github.com/mitchellh/cli"
+	"strconv"
 	"strings"
 )
 
@@ -28,6 +29,10 @@ Options:
   -image=int image id
   -size=string size slug ex:512mb
   -key=int SSHKey id 
+  -backups=bool 
+  -ipv6=bool 
+  -private_networking=bool 
+
 
 e.g.
   configuration
@@ -35,6 +40,8 @@ e.g.
 
   set region to config
     godo-cli config set -region=nyc3
+
+
 `
 	return strings.TrimSpace(helpText)
 }
@@ -46,11 +53,17 @@ func (c *ConfigCommand) Set(args []string) int {
 	var image string
 	var size string
 	var key string
+	var backups string
+	var ipv6 string
+	var private_networking string
 
 	cmdFlags.StringVar(&region, "region", "", "")
 	cmdFlags.StringVar(&image, "image", "", "")
 	cmdFlags.StringVar(&size, "size", "", "")
 	cmdFlags.StringVar(&key, "key", "", "")
+	cmdFlags.StringVar(&backups, "backups", "", "")
+	cmdFlags.StringVar(&ipv6, "ipv6", "", "")
+	cmdFlags.StringVar(&private_networking, "private_networking", "", "")
 
 	err := cmdFlags.Parse(args)
 
@@ -73,6 +86,18 @@ func (c *ConfigCommand) Set(args []string) int {
 
 	if key != "" {
 		c.Config.Defaults.Key = key
+	}
+
+	if backups != "" {
+		c.Config.Defaults.Backups, _ = strconv.ParseBool(backups)
+	}
+
+	if ipv6 != "" {
+		c.Config.Defaults.IPv6, _ = strconv.ParseBool(ipv6)
+	}
+
+	if private_networking != "" {
+		c.Config.Defaults.PrivateNetworking, _ = strconv.ParseBool(private_networking)
 	}
 
 	savePath, err := config.GetConfigPath()
@@ -101,6 +126,10 @@ func (c *ConfigCommand) Get(args []string) int {
 	c.Ui.Output(fmt.Sprintf("Size: %v", c.Config.Defaults.Size))
 	c.Ui.Output(fmt.Sprintf("Region: %v", c.Config.Defaults.Region))
 	c.Ui.Output(fmt.Sprintf("Key: %v", c.Config.Defaults.Key))
+	c.Ui.Output(fmt.Sprintf("Backups: %v", c.Config.Defaults.Backups))
+	c.Ui.Output(fmt.Sprintf("IPv6: %v", c.Config.Defaults.IPv6))
+	c.Ui.Output(fmt.Sprintf("PrivateNetworking: %v", c.Config.Defaults.PrivateNetworking))
+
 	return 0
 }
 

@@ -12,10 +12,13 @@ type Authentication struct {
 	APIKey string `yaml:"apikey"`
 }
 type Defaults struct {
-	Region string `yaml:"region"`
-	Image  string `yaml:"image"`
-	Size   string `yaml:"size"`
-	Key    string `yaml:"key"`
+	Region            string `yaml:"region"`
+	Image             string `yaml:"image"`
+	Size              string `yaml:"size"`
+	Key               string `yaml:"key"`
+	Backups           bool   `yaml:"backups"`
+	IPv6              bool   `yaml:"ipv6"`
+	PrivateNetworking bool   `yaml:"private_networking"`
 }
 
 type Config struct {
