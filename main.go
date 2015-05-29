@@ -14,7 +14,7 @@ import (
 var GitCommit string
 
 const ApplicationName = "godo-cli"
-const Version = "0.0.1"
+const Version = "0.0.2"
 
 func getClinet(accessToken string) *godo.Client {
 
@@ -136,6 +136,12 @@ func main() {
 		},
 		"ssh": func() (cli.Command, error) {
 			return &command.SSHCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
+		"power": func() (cli.Command, error) {
+			return &command.PowerCommand{
 				Ui:     ui,
 				Client: godoCli,
 			}, nil
