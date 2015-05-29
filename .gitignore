@@ -30,3 +30,4 @@ godo-cli
 
 # other undesirables
 *.swp
+*.orig

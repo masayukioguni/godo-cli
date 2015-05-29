@@ -6,7 +6,6 @@ import (
 	"github.com/digitalocean/godo"
 	"github.com/masayukioguni/godo-cli/command"
 	"github.com/masayukioguni/godo-cli/config"
-
 	"github.com/mitchellh/cli"
 	"os"
 )
