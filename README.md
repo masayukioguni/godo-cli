@@ -15,7 +15,7 @@ DigitalOcean API v2 command line tool for interacting with your [DigitalOcean](h
 
 ## Installation
 ```bash
-    $ go get github.com/masayukioguni/godo-cli
+    $ go get -u github.com/masayukioguni/godo-cli # -u updates your previous install, stay current!
 ```
 
 ## Configuration
@@ -55,6 +55,14 @@ Run the configuration utility, `godo-cli authorize`. You can grab your keys
 
     $ godo-cli create -name=test 
     Queueing creation of droplet 'test1' ...done
+
+### Droplet power commands
+
+You can either power on, off or cycle a droplet
+
+    $ godo-cli power -id=3395702 -mode=on # power on droplet id 
+    $ godo-cli power -id=foo -mode=cycle # power cycle (off to on) droplet by name 
+
 
 ### Destroy a droplet
 
