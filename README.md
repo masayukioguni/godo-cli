@@ -136,8 +136,8 @@ You can create a new issue [here](https://github.com/masayukioguni/godo-cli/issu
 
 ## History
 
-0.0.2 Added power command
-0.0.1 first release
++ 0.0.2 Added power command
++ 0.0.1 first release
 
 
 ## License
