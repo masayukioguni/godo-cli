@@ -33,7 +33,7 @@ func (c *AuthorizeCommand) ask(text string, defaultText string) string {
 }
 
 func (c *AuthorizeCommand) Run(args []string) int {
-	apikey := c.ask("Entser your API Token:", "Input api ooken")
+	apikey := c.ask("Enter your API Token:", "Input api token")
 	fmt.Println(`Defaults can be changed at any time in your ~/.godo-cli/config.yaml configuration file.`)
 
 	c.Config.Authentication.APIKey = apikey
