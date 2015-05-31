@@ -14,18 +14,20 @@ DigitalOcean API v2 command line tool for interacting with your [DigitalOcean](h
 
 
 ## Installation
-```bash
-    $ go get -u github.com/masayukioguni/godo-cli # -u updates your previous install, stay current!
-```
+
+    $ go get -u github.com/masayukioguni/godo-cli
+
+-u switch updates your previous install, stay current!
 
 ## Configuration
 
 ### Authorize
+
 Run the configuration utility, `godo-cli authorize`. You can grab your keys
 [here](https://cloud.digitalocean.com/settings/applications).
 
     $ godo-cli authorize
-    Entser your API key:foo
+    Enter your API key:foo
     
     Authentication with DigitalOcean was successful!
 
@@ -61,8 +63,15 @@ Run the configuration utility, `godo-cli authorize`. You can grab your keys
 You can either power on, off or cycle a droplet
 
     $ godo-cli power -id=3395702 -mode=on # power on droplet id 
-    $ godo-cli power -id=foo -mode=cycle # power cycle (off to on) droplet by name 
+    $ godo-cli power -name=foo -mode=cycle # power cycle (off to on) droplet by name 
 
+
+### Take a snapshot of your droplet
+
+    $ godo-cli snapshot -id=3395702 -snapshot=fizz # create a snapshot called fizz for a droplet by id
+    $ godo-cli snapshot -name=foo -snapshot=buzz # create a snapshot called buzz for a droplet by name 
+
+N.B. Your droplet needs to be powered off.
 
 ### Destroy a droplet
 
@@ -82,7 +91,6 @@ list images provided by DigitalOcean as well.
     668.2.0 (alpha) (id: 11657005, distro: CoreOS) coreos-alpha
     ...
 
-   
 ### List Available Sizes
 
     $ godo-cli sizes
@@ -136,7 +144,8 @@ You can create a new issue [here](https://github.com/masayukioguni/godo-cli/issu
 
 ## History
 
-+ 0.0.2 Added power command
++ 0.0.3 Added snapshot droplet command
++ 0.0.2 Added power droplet command
 + 0.0.1 first release
 
 
