@@ -3,8 +3,8 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"fmt"
-	"github.com/booyaa/godo-cli/command"
 	"github.com/digitalocean/godo"
+	"github.com/masayukioguni/godo-cli/command"
 	"github.com/masayukioguni/godo-cli/config"
 	"github.com/mitchellh/cli"
 	"os"
