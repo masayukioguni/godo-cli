@@ -3,10 +3,9 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"fmt"
+	"github.com/booyaa/godo-cli/command"
 	"github.com/digitalocean/godo"
-	"github.com/masayukioguni/godo-cli/command"
 	"github.com/masayukioguni/godo-cli/config"
-
 	"github.com/mitchellh/cli"
 	"os"
 )
@@ -14,7 +13,7 @@ import (
 var GitCommit string
 
 const ApplicationName = "godo-cli"
-const Version = "0.0.2"
+const Version = "0.0.3"
 
 func getClinet(accessToken string) *godo.Client {
 
@@ -142,6 +141,12 @@ func main() {
 		},
 		"power": func() (cli.Command, error) {
 			return &command.PowerCommand{
+				Ui:     ui,
+				Client: godoCli,
+			}, nil
+		},
+		"snapshot": func() (cli.Command, error) {
+			return &command.SnapshotCommand{
 				Ui:     ui,
 				Client: godoCli,
 			}, nil
