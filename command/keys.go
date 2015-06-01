@@ -21,6 +21,7 @@ Usage: godo-cli keys subcommand [options]
 
 Subcommand:
   list
+  show
   create
   delete
 
@@ -28,20 +29,25 @@ Options:
   List Options:
   -type=string List 
 
-Delete Options:
-  -id=int key id
+  Delete Options:
+   -id=int key id
+  
+  Delete Options:
+    -id=int key id
 
-Update Options:
- -name=string new name
- -public_key=string public key path
+  Update Options:
+   -name=string new name
+   -public_key=string public key path
 
-e.g.
-  List SSH Keys
-    godo-cli keys list
-  Create SSH Key
-    godo-cli keys create -name=test -public_key=~/.ssh/id_rsa.pub
-  Delete SSH Key
-    godo-cli keys delete -id=test
+  e.g.
+    List SSH Keys
+     godo-cli keys list
+    List SSH Key
+     godo-cli keys show -id=test
+    Create SSH Key
+      godo-cli keys create -name=test -public_key=~/.ssh/id_rsa.pub
+    Delete SSH Key
+      godo-cli keys delete -id=test
 `
 	return strings.TrimSpace(helpText)
 }
@@ -58,6 +64,38 @@ func (c *KeysCommand) List(args []string) int {
 	for _, key := range keys {
 		c.Ui.Output(fmt.Sprintf("id:%d name:%s", key.ID, key.Name))
 	}
+
+	return 0
+}
+
+func (c *KeysCommand) Show(args []string) int {
+
+	var id = 0
+
+	cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
+
+	cmdFlags.IntVar(&id, "id", 0, "")
+
+	err := cmdFlags.Parse(args)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to parse %v", err))
+		return -1
+	}
+
+	if id == 0 {
+		c.Help()
+		return -1
+	}
+
+	key, _, err := c.Client.Keys.GetByID(id)
+
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to GetByID %v", err))
+		return -1
+	}
+
+	c.Ui.Output(fmt.Sprintf("id:%d name:%s", key.ID, key.Name))
 
 	return 0
 }
@@ -150,10 +188,13 @@ func (c *KeysCommand) Run(args []string) int {
 	switch args[0] {
 	case "list":
 		return c.List(newArgs)
+	case "show":
+		return c.Show(newArgs)
 	case "create":
 		return c.Create(newArgs)
 	case "delete":
 		return c.Delete(newArgs)
+
 	}
 
 	return 0
