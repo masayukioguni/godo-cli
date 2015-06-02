@@ -33,14 +33,14 @@ e.g.
 }
 
 func (c *InfoCommand) DropletById(id int) (*godo.Droplet, error) {
-	dropletRoot, _, err := c.Client.Droplets.Get(id)
+	droplet, _, err := c.Client.Droplets.Get(id)
 
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
 		return nil, err
 	}
 
-	return dropletRoot.Droplet, nil
+	return droplet, nil
 
 }
 

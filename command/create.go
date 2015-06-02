@@ -116,14 +116,14 @@ func (c *CreateCommand) Run(args []string) int {
 		PrivateNetworking: flags.PrivateNetworking,
 	}
 
-	newDroplet, _, err := c.Client.Droplets.Create(createRequest)
+	droplet, _, err := c.Client.Droplets.Create(createRequest)
 
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
 		return -1
 	}
 
-	c.Ui.Output(fmt.Sprintf("Queueing creation of droplet '%s' ...done\n", newDroplet.Droplet.Name))
+	c.Ui.Output(fmt.Sprintf("Queueing creation of droplet '%s' ...done\n", droplet.Name))
 
 	return 0
 }

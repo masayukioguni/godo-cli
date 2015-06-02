@@ -25,13 +25,12 @@ Options:
 }
 
 func (c *AccountCommand) Run(args []string) int {
-	accountRoot, _, err := c.Client.Account.Get()
+	account, _, err := c.Client.Account.Get()
 
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
 		return -1
 	}
-	account := accountRoot.Account
 
 	c.Ui.Output(fmt.Sprintf("%s(%s) verified:%t limit:%d",
 		account.Email, account.UUID, account.EmailVerified, account.DropletLimit))
