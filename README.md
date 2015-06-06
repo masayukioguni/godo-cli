@@ -52,6 +52,11 @@ Run the configuration utility, `godo-cli authorize`. You can grab your keys
     $ godo-cli droplets
     test (ip: xxx.xxx.xxx.xxx, status: active, region :nyc1, id: 3395705)
     test1(ip: xxx.xxx.xxx.xxx, status: active, region :nyc1, id: 3395706)
+    
+
+use the -q(uiet) switch to just display droplet ids, this is useful for shell scripts:
+
+    $ for i in $(godo-cli droplets -q); do godo-cli destroy -id $i; done # destroy all your droplets
 
 ### Create a droplet
 
@@ -144,6 +149,7 @@ You can create a new issue [here](https://github.com/masayukioguni/godo-cli/issu
 
 ## History
 
++ 0.0.4 Enhance droplets command by adding quiet switch
 + 0.0.3 Added snapshot droplet command
 + 0.0.2 Added power droplet command
 + 0.0.1 first release
