@@ -83,6 +83,11 @@ N.B. Your droplet needs to be powered off.
     $ godo-cli destroy -id=3402715
     Queuing destroy for 3402715 ...done
 
+### Shutdown a droplet
+
+    $ godo-cli shutdown -id=3402715
+    Queuing shutdown for 3402715 ...done
+
 ### List Available Images
 
 You can list images that you have created.
@@ -149,6 +154,7 @@ You can create a new issue [here](https://github.com/masayukioguni/godo-cli/issu
 
 ## History
 
++ 0.0.5 Added shutdown droplet command
 + 0.0.4 Enhance droplets command by adding quiet switch
 + 0.0.3 Added snapshot droplet command
 + 0.0.2 Added power droplet command
