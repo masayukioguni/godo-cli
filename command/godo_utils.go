@@ -68,3 +68,32 @@ func (u *GodoUtil) GetDropletByID(targetID int) (*godo.Droplet, error) {
 	}
 	return nil, fmt.Errorf("Error %v is not found", targetID)
 }
+
+func (u *GodoUtil) GetDropletActions(targetID int) ([]godo.Action, error) {
+	list := []godo.Action{}
+	opt := &godo.ListOptions{}
+
+	for {
+		actions, resp, err := u.Client.Droplets.Actions(targetID, opt)
+
+		if err != nil {
+			return list, fmt.Errorf("Failed to request %v", err)
+		}
+
+		for _, i := range actions {
+			list = append(list, i)
+		}
+
+		if resp.Links.IsLastPage() {
+			break
+		}
+
+		page, err := resp.Links.CurrentPage()
+		if err != nil {
+			return list, fmt.Errorf("Failed to CurrentPage %v", err)
+		}
+
+		opt.Page = page + 1
+	}
+	return list, nil
+}
