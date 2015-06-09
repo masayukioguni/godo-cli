@@ -43,16 +43,13 @@ Run the configuration utility, `godo-cli authorize`. You can grab your keys
     Region: nyc3
     Keys: xxxxxx
 
-
 ## Usage
-
 
 ### Retrieve a list of your droplets
 
     $ godo-cli droplets
     test (ip: xxx.xxx.xxx.xxx, status: active, region :nyc1, id: 3395705)
     test1(ip: xxx.xxx.xxx.xxx, status: active, region :nyc1, id: 3395706)
-    
 
 use the -q(uiet) switch to just display droplet ids, this is useful for shell scripts:
 
@@ -87,6 +84,25 @@ N.B. Your droplet needs to be powered off.
 
     $ godo-cli shutdown -id=3402715
     Queuing shutdown for 3402715 ...done
+
+
+### Display history for a droplet
+
+    $ godo-cli info -id=3402715
+
+    foo (status: active, region :lon1, id: 3402715, image id:11732785 size:512mb)
+
+    Droplet history:
+
+    Event           | Initiated                 | Execution Time
+    -------------------------------------------------------------
+    power_on        | 1 day ago                 |              5s
+    shutdown        | 1 day ago                 |              3s
+    power_on        | 1 day ago                 |              8s
+    power_off       | 1 day ago                 |             19s
+    create          | 1 day ago                 |           12m3s
+
+
 
 ### List Available Images
 
@@ -154,6 +170,7 @@ You can create a new issue [here](https://github.com/masayukioguni/godo-cli/issu
 
 ## History
 
++ 0.0.6 Enhance info command by adding droplet actions (history)
 + 0.0.5 Added shutdown droplet command
 + 0.0.4 Enhance droplets command by adding quiet switch
 + 0.0.3 Added snapshot droplet command

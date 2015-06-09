@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/digitalocean/godo"
+	"github.com/dustin/go-humanize"
 	"github.com/mitchellh/cli"
 	"strings"
-	"time"
 )
 
 type InfoCommand struct {
@@ -95,39 +95,20 @@ func (c *InfoCommand) Run(args []string) int {
 	c.Ui.Output(fmt.Sprintf("%s (status: %s, region :%s, id: %d, image id:%d size:%s)\n",
 		droplet.Name, droplet.Status, droplet.Region.Slug, droplet.ID, droplet.Image.ID, droplet.Size.Slug))
 
-	c.Ui.Output(fmt.Sprintf("Droplet history\n"))
-	c.Ui.Output(fmt.Sprintf("===============\n"))
+	c.Ui.Output(fmt.Sprintf("Droplet history:\n"))
 
 	util := GodoUtil{Client: c.Client}
-	actions, err := util.GetDropletActions(droplet.ID) // func (u *GodoUtil) GetDropletActions(targetID int) ([]godo.Action, error) {¬
+	actions, err := util.GetDropletActions(droplet.ID)
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
 		return -1
 	}
 
-	/*
-	   godo.Action{ID:52715195, Status:"completed", Type:"power_on", StartedAt:godo.Timestamp{2015-06-07 14:08:03 +0000 UTC}, CompletedAt:godo.Timestamp{2015-06-07 14:08:08 +0000 UTC}, ResourceID:5610866, ResourceType:"droplet", Region:godo.Region{Slug:"lon1", Name:"London 1", Sizes:["512mb" "1gb" "2gb" "4gb" "8gb" "32gb" "48gb" "64gb" "16gb"], Available:true, Features:["private_networking" "backups" "ipv6" "metadata"]}, RegionSlug:"lon1"}
-	    godo.Action{ID:52715167, Status:"completed", Type:"shutdown", StartedAt:godo.Timestamp{2015-06-07 14:07:37 +0000 UTC}, CompletedAt:godo.Timestamp{2015-06-07 14:07:40 +0000 UTC}, ResourceID:5610866, ResourceType:"droplet", Region:godo.Region{Slug:"lon1", Name:"London 1", Sizes:["512mb" "1gb" "2gb" "4gb" "8gb" "32gb" "48gb" "64gb" "16gb"], Available:true, Features:["private_networking" "backups" "ipv6" "metadata"]}, RegionSlug:"lon1"}
-	    godo.Action{ID:52715079, Status:"completed", Type:"power_on", StartedAt:godo.Timestamp{2015-06-07 14:05:52 +0000 UTC}, CompletedAt:godo.Timestamp{2015-06-07 14:06:00 +0000 UTC}, ResourceID:5610866, ResourceType:"droplet", Region:godo.Region{Slug:"lon1", Name:"London 1", Sizes:["512mb" "1gb" "2gb" "4gb" "8gb" "32gb" "48gb" "64gb" "16gb"], Available:true, Features:["private_networking" "backups" "ipv6" "metadata"]}, RegionSlug:"lon1"}
-	    godo.Action{ID:52715050, Status:"completed", Type:"power_off", StartedAt:godo.Timestamp{2015-06-07 14:05:23 +0000 UTC}, CompletedAt:godo.Timestamp{2015-06-07 14:05:42 +0000 UTC}, ResourceID:5610866, ResourceType:"droplet", Region:godo.Region{Slug:"lon1", Name:"London 1", Sizes:["512mb" "1gb" "2gb" "4gb" "8gb" "32gb" "48gb" "64gb" "16gb"], Available:true, Features:["private_networking" "backups" "ipv6" "metadata"]}, RegionSlug:"lon1"}
-	    godo.Action{ID:52714162, Status:"completed", Type:"create", StartedAt:godo.Timestamp{2015-06-07 13:49:47 +0000 UTC}, CompletedAt:godo.Timestamp{2015-06-07 14:01:50 +0000 UTC}, ResourceID:5610866, ResourceType:"droplet", Region:godo.Region{Slug:"lon1", Name:"London 1", Sizes:["512mb" "1gb" "2gb" "4gb" "8gb" "32gb" "48gb" "64gb" "16gb"], Available:true, Features:["private_networking" "backups" "ipv6" "metadata"]}, RegionSlug:"lon1"}
-	*/
-	c.Ui.Output(fmt.Sprintf("Event | Initiated             | Execution Time\n"))
+	c.Ui.Output(fmt.Sprintf("%-15s | %-25s | %-15s", "Event", "Initiated", "Execution Time"))
+	c.Ui.Output(fmt.Sprintf("-------------------------------------------------------------"))
 	for _, a := range actions {
-		// c.Ui.Output(fmt.Sprintf("%+v", a))
-		start := a.StartedAt.String()
-		finish := a.CompletedAt.String()
-		// parse, err := time.Parse(a.StartedAt, a.CompletedAt)
-		parse, err := time.Parse(start, finish)
-
-		if err != nil {
-			c.Ui.Error(fmt.Sprintf("Failed to parse time %v", err))
-			return -1
-		}
-
-		delta := time.Since(parse)
-
-		c.Ui.Output(fmt.Sprintf("%s    | %s                    | %s\n", a.Type, a.StartedAt, delta))
+		delta := a.CompletedAt.Sub(a.StartedAt.Time)
+		c.Ui.Output(fmt.Sprintf("%-15s | %-25s | %15s", a.Type, humanize.Time(a.StartedAt.Time), delta))
 
 	}
 
