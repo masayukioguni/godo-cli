@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/digitalocean/godo"
+	"github.com/dustin/go-humanize"
 	"github.com/mitchellh/cli"
 	"strings"
 )
@@ -93,6 +94,23 @@ func (c *InfoCommand) Run(args []string) int {
 
 	c.Ui.Output(fmt.Sprintf("%s (status: %s, region :%s, id: %d, image id:%d size:%s)\n",
 		droplet.Name, droplet.Status, droplet.Region.Slug, droplet.ID, droplet.Image.ID, droplet.Size.Slug))
+
+	c.Ui.Output(fmt.Sprintf("Droplet history:\n"))
+
+	util := GodoUtil{Client: c.Client}
+	actions, err := util.GetDropletActions(droplet.ID)
+	if err != nil {
+		c.Ui.Error(fmt.Sprintf("Failed to request %v", err))
+		return -1
+	}
+
+	c.Ui.Output(fmt.Sprintf("%-15s | %-25s | %-15s", "Event", "Initiated", "Execution Time"))
+	c.Ui.Output(fmt.Sprintf("-------------------------------------------------------------"))
+	for _, a := range actions {
+		delta := a.CompletedAt.Sub(a.StartedAt.Time)
+		c.Ui.Output(fmt.Sprintf("%-15s | %-25s | %15s", a.Type, humanize.Time(a.StartedAt.Time), delta))
+
+	}
 
 	return 0
 }

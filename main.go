@@ -13,7 +13,7 @@ import (
 var GitCommit string
 
 const ApplicationName = "godo-cli"
-const Version = "0.0.5"
+const Version = "0.0.6"
 
 func getClinet(accessToken string) *godo.Client {
 
