@@ -21,7 +21,7 @@ Usage: godo-cli domains
 }
 
 func (c *DomainsCommand) parse(args []string) (*DomainsFlags, error) {
-    flags := new(DropletsFlags)
+    flags := new(DomainsFlags)
 
     cmdFlags := flag.NewFlagSet("build", flag.ContinueOnError)
 
