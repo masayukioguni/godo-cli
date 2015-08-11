@@ -89,6 +89,12 @@ func main() {
 				Client: godoCli,
 			}, nil
 		},
+        "domains": func() (cli.Command, error) {
+            return &command.DomainsCommand{
+                Ui:     ui,
+                Client: godoCli,
+            }, nil
+        },
 		"droplets": func() (cli.Command, error) {
 			return &command.DropletsCommand{
 				Ui:     ui,
