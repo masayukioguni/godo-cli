@@ -13,6 +13,10 @@ type DomainsCommand struct {
     Client *godo.Client
 }
 
+type DomainsFlags struct {
+	Quiet bool
+}
+
 func (c *DomainsCommand) Help() string {
     helpText := `
 Usage: godo-cli domains
@@ -37,7 +41,7 @@ func (c *DomainsCommand) parse(args []string) (*DomainsFlags, error) {
 }
 
 func (c *DomainsCommand) Run(args []string) int {
-    flags, err := c.parse(args)
+    _, err := c.parse(args)
 
     if err != nil {
         c.Ui.Error(fmt.Sprintf("Failed to parse %v", err))
@@ -53,10 +57,9 @@ func (c *DomainsCommand) Run(args []string) int {
 
     for _, domain := range domains {
         fmt.Printf("%s (Name: %s, TTL: %s, ZoneFile :%s)\n",
-            domain.Name, 
-            domain.TTL, 
-            domain.ZoneFile 
-        )
+            domain.Name,
+            domain.TTL,
+            domain.ZoneFile)
     }
     return 0
 }
@@ -64,4 +67,3 @@ func (c *DomainsCommand) Run(args []string) int {
 func (c *DomainsCommand) Synopsis() string {
     return fmt.Sprintf("Retrieve the list of domains.")
 }
-

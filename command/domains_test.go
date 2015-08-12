@@ -10,7 +10,7 @@ func TestCommond_DomainsSynopsis(t *testing.T) {
         Client: nil,
     }
 
-    wantSynopsis := "Retrieve the list of domainss."
+    wantSynopsis := "Retrieve the list of domains."
     if !reflect.DeepEqual(command.Synopsis(), wantSynopsis) {
         t.Errorf("DomainsCommand.Synopsis returned %+v, want %+v", command.Synopsis(), wantSynopsis)
     }
