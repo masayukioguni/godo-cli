@@ -25,11 +25,10 @@ func getClinet(accessToken string) *godo.Client {
 }
 
 func main() {
-	ui := &cli.BasicUi{Writer: os.Stdout}
 
 	configPath, err := config.GetConfigPath()
 	if err != nil {
-		fmt.Errorf("Error GetConfigPath %s", err)
+		fmt.Print(fmt.Errorf("Error GetConfigPath %s", err))
 		os.Exit(1)
 	}
 
@@ -37,25 +36,22 @@ func main() {
 	if err != nil {
 		configDummy := &config.Config{}
 		configDirPath, _ := config.GetConfigDirectory()
-
-		if err := os.Mkdir(configDirPath, 0766); err != nil {
-			fmt.Errorf("Error LoadConfig %s", err)
-			os.Exit(1)
-		}
-
+		os.Mkdir(configDirPath, 0766)
 		config.SaveConfig(configPath, configDummy)
 	}
 
 	config, err := config.LoadConfig(configPath)
 	if err != nil {
-		fmt.Errorf("Error LoadConfig %s", err)
+		fmt.Print(fmt.Errorf("Error LoadConfig %s", err))
 		return
 	}
 
 	godoCli := getClinet(config.Authentication.APIKey)
+	ui := &cli.BasicUi{Writer: os.Stdout, ErrorWriter: os.Stderr}
 
 	c := cli.NewCLI(ApplicationName, Version)
 	c.Args = os.Args[1:]
+
 	c.Commands = map[string]cli.CommandFactory{
 		"authorize": func() (cli.Command, error) {
 			return &command.AuthorizeCommand{

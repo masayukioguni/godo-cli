@@ -1,6 +1,7 @@
 language: go
 go:
   - 1.4
+  - 1.5
   - release
 
 before_install:
@@ -9,6 +10,7 @@ before_install:
 matrix:
   allow_failures:
     - go: 1.4
+    - go: 1.5
     - go: release
 
 script:
